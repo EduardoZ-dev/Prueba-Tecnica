@@ -22,6 +22,9 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(cf => cf.UpdatedAt);
+
+            builder.Property(cf => cf.Id)
+                .ValueGeneratedNever();
         }
     }
 }

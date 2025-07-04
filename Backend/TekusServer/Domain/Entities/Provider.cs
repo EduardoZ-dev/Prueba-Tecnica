@@ -25,22 +25,35 @@ namespace Domain.Entities
         public string Name { get; private set; }
         public Email Email { get; private set; }
 
-
         public void AddCustomField(string key, string value)
         {
-            var customField = CustomField.Create(key, value);
+            var customField = CustomField.Create(key, value, this.Id);
             _customFields.Add(customField);
         }
 
-        public void AddService(Service service)
+        public Service AddService(string name, decimal rate, List<string> countries)
         {
+            var service = Service.Create(name, rate, countries, this.Id);
             _services.Add(service);
+            return service;
         }
 
         public void Update(string name, Email email)
         {
             Name = name;
             Email = email;
+            SetUpdatedNow();
+        }
+
+        public void ClearCustomFields()
+        {
+            _customFields.Clear();
+            SetUpdatedNow();
+        }
+
+        public void ClearServices()
+        {
+            _services.Clear();
             SetUpdatedNow();
         }
 

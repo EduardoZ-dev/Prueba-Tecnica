@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using MediatR;
 
 namespace Application.Commands.CustomFields.Update
 {
@@ -6,5 +6,5 @@ namespace Application.Commands.CustomFields.Update
         Guid ProviderId,
         Guid CustomFieldId,
         string NewValue
-    ) : ICommand;
+    ) : IRequest;
 }

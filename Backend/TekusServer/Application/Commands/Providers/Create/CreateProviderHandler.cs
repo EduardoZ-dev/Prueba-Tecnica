@@ -1,12 +1,12 @@
-﻿using Application.Abstractions;
-using Application.Abstractions.Persistence;
+﻿using Application.Abstractions.Persistence;
 using Domain.Common;
 using Domain.Entities;
 using Domain.ValueObjects;
+using MediatR;
 
 namespace Application.Commands.Providers.Create
 {
-    internal sealed class CreateProviderHandler : ICommandHandler<CreateProviderCommand>
+    internal sealed class CreateProviderHandler : IRequestHandler<CreateProviderCommand, Guid>
     {
         private readonly IProviderRepository _providerRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +17,7 @@ namespace Application.Commands.Providers.Create
             _unitOfWork = unitOfWork;
         }
 
-        public async Task HandleAsync(CreateProviderCommand command, CancellationToken cancellationToken = default)
+        public async Task<Guid> Handle(CreateProviderCommand command, CancellationToken cancellationToken)
         {
             var email = Email.Create(command.Email);
             var provider = new Provider(command.Nit, command.Name, email);
@@ -31,12 +31,13 @@ namespace Application.Commands.Providers.Create
             // Agregar servicios
             foreach (var serviceDto in command.Services)
             {
-                var service = Service.Create(serviceDto.Name, serviceDto.HourlyRateUsd, serviceDto.Countries);
-                provider.AddService(service);
+                provider.AddService(serviceDto.Name, serviceDto.HourlyRateUsd, serviceDto.Countries);
             }
 
             await _providerRepository.Add(provider, cancellationToken);
             await _unitOfWork.SaveChanges(cancellationToken);
+
+            return provider.Id;
         }
     }
 }

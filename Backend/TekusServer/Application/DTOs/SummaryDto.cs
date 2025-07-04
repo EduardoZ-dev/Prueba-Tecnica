@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs
 {
-    public record SummaryDto(
+    public sealed record SummaryDto(
         Dictionary<string, int> ProvidersPerCountry,
         Dictionary<string, int> ServicesPerCountry
     );

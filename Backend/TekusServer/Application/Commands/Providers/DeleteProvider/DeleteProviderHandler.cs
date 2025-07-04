@@ -1,30 +1,27 @@
-﻿using Application.Abstractions;
+﻿using MediatR;
 using Application.Abstractions.Persistence;
 using Domain.Common;
+using Domain.Exceptions;
 
 namespace Application.Commands.Providers.DeleteProvider
 {
-    internal sealed class DeleteProviderHandler : ICommandHandler<DeleteProviderCommand>
+    internal sealed class DeleteProviderHandler : IRequestHandler<DeleteProviderCommand>
     {
         private readonly IProviderRepository _providerRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteProviderHandler(
-            IProviderRepository providerRepository,
-            IUnitOfWork unitOfWork)
+        public DeleteProviderHandler(IProviderRepository providerRepository, IUnitOfWork unitOfWork)
         {
-            _providerRepository = providerRepository ?? throw new ArgumentNullException(nameof(providerRepository));
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _providerRepository = providerRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task HandleAsync(DeleteProviderCommand command, CancellationToken cancellationToken = default)
+        public async Task Handle(DeleteProviderCommand command, CancellationToken cancellationToken)
         {
             var provider = await _providerRepository.GetById(command.Id, cancellationToken);
 
-            /*if (provider is null)
-            {
-                throw new NotFoundException($"Provider with ID {command.Id} was not found.");
-            }*/
+            if (provider == null)
+                throw new DomainException($"Provider with ID {command.Id} was not found.");
 
             _providerRepository.Delete(provider);
 

@@ -105,7 +105,5 @@ namespace Infrastructure.Data.Repositories
 
             return await query.ToListAsync(cancellationToken);
         }
-
-
     }
 }

@@ -1,10 +1,11 @@
-﻿using Application.Abstractions;
-using Application.Abstractions.Persistence;
+﻿using Application.Abstractions.Persistence;
 using Domain.Common;
+using Domain.Exceptions;
+using MediatR;
 
 namespace Application.Commands.CustomFields.Add
 {
-    public sealed class AddCustomFieldToProviderHandler : ICommandHandler<AddCustomFieldToProviderCommand>
+    internal sealed class AddCustomFieldToProviderHandler : IRequestHandler<AddCustomFieldToProviderCommand>
     {
         private readonly IProviderRepository _providerRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,16 +18,15 @@ namespace Application.Commands.CustomFields.Add
             _unitOfWork = unitOfWork;
         }
 
-        public async Task HandleAsync(AddCustomFieldToProviderCommand command, CancellationToken cancellationToken = default)
+        public async Task Handle(AddCustomFieldToProviderCommand command, CancellationToken cancellationToken)
         {
             var provider = await _providerRepository.GetById(command.ProviderId, cancellationToken);
 
-            /*if (provider is null)
-                throw new NotFoundException($"Provider with ID '{command.ProviderId}' not found.");*/
+            if (provider == null)
+                throw new DomainException($"Provider with ID {command.ProviderId} was not found.");
 
             provider.AddCustomField(command.Key, command.Value);
 
-            _providerRepository.Update(provider);
             await _unitOfWork.SaveChanges(cancellationToken);
         }
     }

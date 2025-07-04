@@ -1,0 +1,38 @@
+<ng-container *ngIf="prov && form">
+  <form [formGroup]="form" (ngSubmit)="save()" class="simple-form">
+
+    <h2>
+      <input formControlName="name" placeholder="Nombre del proveedor" />
+    </h2>
+
+    <p>
+      <input formControlName="nit" placeholder="NIT" />
+      &nbsp;|&nbsp;
+      <input formControlName="email" placeholder="Email" />
+    </p>
+
+    <h3>Servicios</h3>
+    <div formArrayName="services">
+      <div *ngFor="let svc of services.controls; let i = index" [formGroupName]="i" class="service-box">
+        <input formControlName="name" placeholder="Nombre del servicio" />
+        <input formControlName="hourlyRateUsd" type="number" placeholder="Tarifa USD" />
+        <input formControlName="countries" placeholder="Países (separados por coma)" />
+        <button type="button" (click)="removeService(i)">Eliminar</button>
+      </div>
+    </div>
+    <button type="button" (click)="addService()">Agregar servicio</button>
+
+    <h3>Campos personalizados</h3>
+    <div formArrayName="customFields">
+      <div *ngFor="let cf of customFields.controls; let i = index" [formGroupName]="i" class="field-box">
+        <input formControlName="key" placeholder="Título" />
+        <input formControlName="value" placeholder="Descripción" />
+        <button type="button" (click)="removeCustomField(i)">Eliminar</button>
+      </div>
+    </div>
+    <button type="button" (click)="addCustomField()">Agregar campo</button>
+
+    <br /><br />
+    <button type="submit" [disabled]="form.invalid">Guardar cambios</button>
+  </form>
+</ng-container>

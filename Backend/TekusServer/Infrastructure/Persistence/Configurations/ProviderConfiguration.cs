@@ -35,6 +35,14 @@ namespace Infrastructure.Persistence.Configurations
                 .WithOne()
                 .HasForeignKey("ProviderId")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Navigation(p => p.CustomFields).AutoInclude();
+
+            builder.Navigation(p => p.Services).AutoInclude();
+
+            /*builder.Entity<Service>()
+                .Property(s => s.Id).ValueGeneratedNever();*/
+
         }
     }
 }

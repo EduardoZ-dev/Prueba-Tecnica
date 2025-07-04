@@ -1,29 +1,24 @@
-
-using Application.Abstractions.Persistence;
-using Domain.Common;
+using Application;
 using Infrastructure;
-using Infrastructure.Data.Repositories;
-using Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var allowedOrigins = builder.Configuration["allowedOrigins"]!
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
-builder.Services.AddScoped<IUnitOfWork, ApplicationDbContext>();
-builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 
-builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
-builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
-builder.Services.AddScoped<ICustomFieldRepository, CustomFieldRepository>();
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("FrontPolicy", p =>
+        p.WithOrigins(allowedOrigins)
+         .AllowAnyHeader()
+         .AllowAnyMethod()
+         .AllowCredentials());
+});
 
-builder.Services.AddScoped<ICountryService, CountryService>();
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -39,7 +34,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseCors("FrontPolicy");
 
 app.UseAuthorization();
 

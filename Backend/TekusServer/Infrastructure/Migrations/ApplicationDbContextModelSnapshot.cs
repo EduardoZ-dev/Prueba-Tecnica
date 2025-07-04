@@ -25,7 +25,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.CustomField", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -36,7 +35,7 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid?>("ProviderId")
+                    b.Property<Guid>("ProviderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -84,7 +83,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Service", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Countries")
@@ -102,7 +100,7 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<Guid?>("ProviderId")
+                    b.Property<Guid>("ProviderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -120,14 +118,15 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Provider", null)
                         .WithMany("CustomFields")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Provider", b =>
                 {
                     b.OwnsOne("Domain.ValueObjects.Email", "Email", b1 =>
                         {
-                            b1.Property<Guid>("ProviderId")
+                            b1.Property<Guid>("Id")
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
@@ -136,12 +135,12 @@ namespace Infrastructure.Migrations
                                 .HasColumnType("nvarchar(100)")
                                 .HasColumnName("Email");
 
-                            b1.HasKey("ProviderId");
+                            b1.HasKey("Id");
 
                             b1.ToTable("Providers");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProviderId");
+                                .HasForeignKey("Id");
                         });
 
                     b.Navigation("Email")
@@ -153,7 +152,8 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Provider", null)
                         .WithMany("Services")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Provider", b =>

@@ -34,7 +34,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Key = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -56,8 +56,8 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     HourlyRateUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Countries = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },

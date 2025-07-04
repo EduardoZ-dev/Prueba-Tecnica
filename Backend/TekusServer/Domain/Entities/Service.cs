@@ -6,6 +6,7 @@ namespace Domain.Entities
     {
         public string Name { get; private set; } = null!;
         public decimal HourlyRateUsd { get; private set; }
+        public Guid ProviderId { get; private set; }
 
         private readonly List<string> _countries = new();
         public IReadOnlyCollection<string> Countries => _countries.AsReadOnly();
@@ -22,7 +23,7 @@ namespace Domain.Entities
             _countries = countries ?? new List<string>();
         }
 
-        public static Service Create(string name, decimal hourlyRateUsd, List<string> countries)
+        public static Service Create(string name, decimal hourlyRateUsd, List<string> countries, Guid providerId)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name is required", nameof(name));
@@ -30,8 +31,9 @@ namespace Domain.Entities
             if (hourlyRateUsd <= 0)
                 throw new ArgumentException("Hourly rate must be positive", nameof(hourlyRateUsd));
 
-
-            return new Service(name, hourlyRateUsd, countries);
+            var service = new Service(name, hourlyRateUsd, countries);
+            service.ProviderId = providerId;
+            return service;
         }
 
         public void Update(string name, decimal hourlyRateUsd)

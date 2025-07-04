@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using MediatR;
 
 namespace Application.Commands.ServicesProvider.Update
 {
@@ -6,5 +6,5 @@ namespace Application.Commands.ServicesProvider.Update
         Guid Id,
         string Name,
         decimal HourlyRateUsd
-    ) : ICommand;
+    ) : IRequest;
 }

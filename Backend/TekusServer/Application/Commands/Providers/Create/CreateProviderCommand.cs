@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using MediatR;
 
 namespace Application.Commands.Providers.Create
 {
@@ -8,7 +8,7 @@ namespace Application.Commands.Providers.Create
         string Email,
         List<CustomFieldDto> CustomFields,
         List<ServiceDto> Services
-    ) : ICommand;
+    ) : IRequest<Guid>;
 
     public sealed record CustomFieldDto(string Key, string Value);
     public sealed record ServiceDto(string Name, decimal HourlyRateUsd, List<string> Countries);

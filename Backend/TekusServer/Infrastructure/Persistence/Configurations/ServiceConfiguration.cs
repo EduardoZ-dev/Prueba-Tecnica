@@ -11,6 +11,12 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(s => s.Id);
 
+            builder.Property(s => s.Id)
+                .ValueGeneratedNever();
+
+            builder.Property(s => s.ProviderId)
+                .IsRequired();
+
             builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(150);

@@ -1,10 +1,10 @@
-﻿using Application.Abstractions.Persistence;
-using Application.Abstractions;
+﻿using MediatR;
+using Application.Abstractions.Persistence;
 using Application.DTOs;
 
 namespace Application.Queries.ServicesProvider.GetAll
 {
-    internal sealed class GetAllServicesHandler : IQueryHandler<GetAllServicesQuery, List<ServiceDto>>
+    internal sealed class GetAllServicesHandler : IRequestHandler<GetAllServicesQuery, List<ServiceDto>>
     {
         private readonly IServiceRepository _serviceRepository;
 
@@ -13,7 +13,7 @@ namespace Application.Queries.ServicesProvider.GetAll
             _serviceRepository = serviceRepository;
         }
 
-        public async Task<List<ServiceDto>> HandleAsync(GetAllServicesQuery query, CancellationToken cancellationToken = default)
+        public async Task<List<ServiceDto>> Handle(GetAllServicesQuery query, CancellationToken cancellationToken)
         {
             var services = await _serviceRepository.GetAll(cancellationToken);
 

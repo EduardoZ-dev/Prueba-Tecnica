@@ -1,7 +1,7 @@
-﻿using Application.Abstractions;
-using Application.DTOs;
+﻿using Application.DTOs;
+using MediatR;
 
 namespace Application.Queries.Providers.GetById
 {
-    public sealed record GetProviderByIdQuery(Guid Id) : IQuery<ProviderDto>;
+    public sealed record GetProviderByIdQuery(Guid Id) : IRequest<ProviderDto>;
 }

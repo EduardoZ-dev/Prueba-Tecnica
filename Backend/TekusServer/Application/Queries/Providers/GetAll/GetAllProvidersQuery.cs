@@ -1,5 +1,5 @@
-﻿using Application.Abstractions;
-using Application.DTOs;
+﻿using Application.DTOs;
+using MediatR;
 
 namespace Application.Queries.Providers.GetAll
 {
@@ -8,5 +8,6 @@ namespace Application.Queries.Providers.GetAll
         string? SortBy,
         int Page = 1,
         int PageSize = 10
-    ) : IQuery<List<ProviderDto>>;
+    ) : IRequest<List<ProviderDto>>;
 }
+

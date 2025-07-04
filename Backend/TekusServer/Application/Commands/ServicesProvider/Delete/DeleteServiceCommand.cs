@@ -1,6 +1,6 @@
-﻿using Application.Abstractions;
+﻿using MediatR;
 
 namespace Application.Commands.ServicesProvider.Delete
 {
-    public sealed record DeleteServiceCommand(Guid Id) : ICommand;
+    public sealed record DeleteServiceCommand(Guid Id) : IRequest;
 }

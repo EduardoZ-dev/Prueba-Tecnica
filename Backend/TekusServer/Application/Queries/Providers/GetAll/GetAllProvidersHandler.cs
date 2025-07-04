@@ -1,12 +1,10 @@
-﻿using Application.Abstractions;
+﻿using MediatR;
 using Application.Abstractions.Persistence;
 using Application.DTOs;
 
-
 namespace Application.Queries.Providers.GetAll
 {
-    internal sealed class GetAllProvidersHandler
-        : IQueryHandler<GetAllProvidersQuery, List<ProviderDto>>
+    internal sealed class GetAllProvidersHandler : IRequestHandler<GetAllProvidersQuery, List<ProviderDto>>
     {
         private readonly IProviderRepository _repository;
 
@@ -15,7 +13,7 @@ namespace Application.Queries.Providers.GetAll
             _repository = repository;
         }
 
-        public async Task<List<ProviderDto>> HandleAsync(GetAllProvidersQuery query, CancellationToken cancellationToken = default)
+        public async Task<List<ProviderDto>> Handle(GetAllProvidersQuery query, CancellationToken cancellationToken)
         {
             var providers = await _repository.SearchAsync(
                 query.Search,

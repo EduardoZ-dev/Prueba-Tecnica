@@ -1,7 +1,7 @@
-﻿using Application.Abstractions;
+﻿using MediatR;
 using Application.DTOs;
 
 namespace Application.Queries.ServicesProvider.GetAll
 {
-    public sealed record GetAllServicesQuery : IQuery<List<ServiceDto>>;
+    public sealed record GetAllServicesQuery : IRequest<List<ServiceDto>>;
 }

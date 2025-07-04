@@ -1,27 +1,24 @@
-﻿using Application.Abstractions.Persistence;
-using Application.Abstractions;
+﻿using MediatR;
+using Application.Abstractions.Persistence;
 using Application.DTOs;
 
 namespace Application.Queries.Providers.GetById
 {
-    internal sealed class GetProviderByIdHandler
-        : IQueryHandler<GetProviderByIdQuery, ProviderDto>
+    internal sealed class GetProviderByIdHandler : IRequestHandler<GetProviderByIdQuery, ProviderDto>
     {
         private readonly IProviderRepository _providerRepository;
 
         public GetProviderByIdHandler(IProviderRepository providerRepository)
         {
-            _providerRepository = providerRepository ?? throw new ArgumentNullException(nameof(providerRepository));
+            _providerRepository = providerRepository;
         }
 
-        public async Task<ProviderDto> HandleAsync(GetProviderByIdQuery query, CancellationToken cancellationToken = default)
+        public async Task<ProviderDto> Handle(GetProviderByIdQuery query, CancellationToken cancellationToken)
         {
             var provider = await _providerRepository.GetById(query.Id, cancellationToken);
 
-            /*if (provider is null)
-            {
-                throw new NotFoundException($"Provider with ID {query.Id} was not found.");
-            }*/
+            if (provider == null)
+                throw new KeyNotFoundException($"Provider with ID {query.Id} was not found.");
 
             return new ProviderDto(
                 Id: provider.Id,

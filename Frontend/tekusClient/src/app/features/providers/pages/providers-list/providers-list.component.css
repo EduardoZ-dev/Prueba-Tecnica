@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  width: 900px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.link {
+  cursor: pointer;
+  color: #3f51b5;
+  &:hover { text-decoration: underline; }
+}
+
+.row:hover {
+  background: #eef7ff;
+}
+
+.empty {
+  text-align: center;
+  padding: 24px 0;
+  color: #888;
+}

@@ -15,7 +15,7 @@ namespace Domain.Entities
             Value = value;
         }
 
-        public static CustomField Create(string key, string value)
+        public static CustomField Create(string key, string value, Guid providerId)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Key is required", nameof(key));
@@ -23,11 +23,18 @@ namespace Domain.Entities
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Value is required", nameof(value));
 
-            return new CustomField(key, value);
+            if (providerId == Guid.Empty)
+                throw new ArgumentException("ProviderId is required", nameof(providerId));
+
+            var field = new CustomField(key, value);
+            field.ProviderId = providerId;
+            field.Id = Guid.NewGuid();
+            return field;
         }
 
         public string Key { get; private set; } = null!;
         public string Value { get; private set; } = null!;
+        public Guid ProviderId { get; private set; }
 
         public void Update(string value)
         {

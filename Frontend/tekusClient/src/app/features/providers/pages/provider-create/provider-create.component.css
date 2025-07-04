@@ -1,0 +1,66 @@
+/* Contenedor principal */
+.provider-card {
+  max-width: 800px;
+  margin: 24px auto;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background: #fafafa;
+}
+
+/* Títulos */
+.card-title {
+  margin-bottom: 16px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
+.section-title {
+  margin-top: 32px;
+  margin-bottom: 8px;
+  font-size: 20px;
+  color: #555;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 4px;
+}
+
+/* Layout de rejilla */
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+.small-gap {
+  gap: 8px;
+}
+.full-width {
+  width: 100%;
+}
+
+/* Inputs pequeños para tarifa y países */
+.small-field {
+  max-width: 200px;
+}
+
+/* Tarjetas de servicios */
+.service-card {
+  margin: 16px 0;
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+/* Botones de eliminar */
+.btn-remove,
+.btn-remove-service {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+/* Contenedor de acciones finales */
+.actions {
+  margin-top: 24px;
+  text-align: right;
+}

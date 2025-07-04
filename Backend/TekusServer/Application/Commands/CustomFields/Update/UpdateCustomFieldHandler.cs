@@ -1,10 +1,11 @@
-﻿using Application.Abstractions;
-using Application.Abstractions.Persistence;
+﻿using Application.Abstractions.Persistence;
 using Domain.Common;
+using Domain.Exceptions;
+using MediatR;
 
 namespace Application.Commands.CustomFields.Update
 {
-    public sealed class UpdateCustomFieldHandler : ICommandHandler<UpdateCustomFieldCommand>
+    internal sealed class UpdateCustomFieldHandler : IRequestHandler<UpdateCustomFieldCommand>
     {
         private readonly IProviderRepository _providerRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,17 +18,19 @@ namespace Application.Commands.CustomFields.Update
             _unitOfWork = unitOfWork;
         }
 
-        public async Task HandleAsync(UpdateCustomFieldCommand command, CancellationToken cancellationToken = default)
+        public async Task Handle(UpdateCustomFieldCommand command, CancellationToken cancellationToken)
         {
-            var provider = await _providerRepository.GetById(command.ProviderId, cancellationToken)
-                           ?? throw new KeyNotFoundException("Provider not found.");
+            var provider = await _providerRepository.GetById(command.ProviderId, cancellationToken);
 
-            var customField = provider.CustomFields.FirstOrDefault(cf => cf.Id == command.CustomFieldId)
-                              ?? throw new KeyNotFoundException("Custom field not found.");
+            if (provider == null)
+                throw new DomainException($"Provider with ID {command.ProviderId} was not found.");
+
+            var customField = provider.CustomFields.FirstOrDefault(cf => cf.Id == command.CustomFieldId);
+            if (customField == null)
+                throw new DomainException($"Custom field with ID {command.CustomFieldId} was not found.");
 
             customField.Update(command.NewValue);
 
-            await _providerRepository.Update(provider, cancellationToken);
             await _unitOfWork.SaveChanges(cancellationToken);
         }
     }

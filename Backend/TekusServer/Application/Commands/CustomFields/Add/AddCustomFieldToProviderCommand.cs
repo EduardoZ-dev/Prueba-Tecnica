@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using MediatR;
 
 namespace Application.Commands.CustomFields.Add
 {
@@ -6,5 +6,5 @@ namespace Application.Commands.CustomFields.Add
         Guid ProviderId,
         string Key,
         string Value
-    ) : ICommand;
+    ) : IRequest;
 }
