@@ -1,4 +1,4 @@
-using Application;
+﻿using Application;
 using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,3 +44,11 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+/*
+ ⚠️ Nota: Por motivos de tiempo no se implementó el sistema de autenticación.
+Sin embargo, la estrategia contemplada era utilizar JWT (Bearer Token) para la autenticación del lado del backend. En el frontend (Angular), se tenía previsto interceptar las solicitudes HTTP mediante un Interceptor para adjuntar el token en las cabeceras (Authorization: Bearer <token>), y proteger rutas sensibles utilizando Guards que validaran la existencia y vigencia del token.
+Esta implementación quedó pendiente por razones de tiempo, pero la arquitectura del proyecto está preparada para su integración futura.
+ 
+ */
